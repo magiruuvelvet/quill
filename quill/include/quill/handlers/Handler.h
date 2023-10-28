@@ -104,6 +104,23 @@ public:
     return _log_level.load(std::memory_order_relaxed);
   }
 
+  /**
+   * Sets the id of the handler for later identification.
+   * @note thread-safe
+   * @param handler_id the id of the handler for later identification
+   */
+  void set_handler_id(std::uint8_t handler_id) { _handler_id.store(handler_id, std::memory_order_relaxed); }
+
+  /**
+   * Looks up the existing handler id that was set by set_handler_id and returns it.
+   * @note thread-safe
+   * @return the id of the handler for identification
+   */
+  QUILL_NODISCARD std::uint8_t get_handler_id() const noexcept
+  {
+    return _handler_id.load(std::memory_order_relaxed);
+  }
+
   /** Filters **/
 
   /**
@@ -137,6 +154,7 @@ private:
   std::recursive_mutex _global_filters_lock;
 
   std::atomic<quill::LogLevel> _log_level{LogLevel::TraceL3};
+  std::atomic<std::uint8_t> _handler_id{0};
 
   /** Indicator that a new filter was added **/
   std::atomic<bool> _new_filter{false};

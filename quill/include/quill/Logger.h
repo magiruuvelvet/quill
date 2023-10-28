@@ -62,6 +62,14 @@ public:
   }
 
   /**
+   * @return a vector of all handlers of this logger
+   */
+  QUILL_NODISCARD std::vector<std::shared_ptr<Handler>> const& handlers() const noexcept
+  {
+    return _logger_details.handlers();
+  }
+
+  /**
    * Set the log level of the logger
    * @param log_level The new log level
    */
